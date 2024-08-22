@@ -1,0 +1,38 @@
+
+.chat-container {
+    width: 400px;
+    margin: 0 auto;
+    margin-top: 100px;
+    padding: 20px;
+    border: 1px solid #000000;
+    border-radius: 10px;
+     padding: 20px; /* Padding inside the container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: shadow for better visual */
+    background-color: #e4dede; /* Background color */
+    border-radius: 8px; /* Rounded corners */
+    
+}
+
+.messages {
+    height: 300px;
+    overflow-y: scroll;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+}
+
+.message {
+    margin: 5px 0;
+    color: #000000;
+}
+
+.user-message {
+    text-align: right;
+}
+
+.controls {
+    margin-top: 10px;
+}
+.footer{
+    
+    margin-top: 120px;
+}

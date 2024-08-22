@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <div class="chat-container">
+        <div class="messages" id="chat-messages">
+            <!-- Messages will be appended here -->
+        </div>
+        <form id="chat-form">
+            <input type="text" id="chat-input" placeholder="Type a message..." autocomplete="off" required style="height: 2.0vw;">
+            <button type="submit" class="btn btn-success">Send</button>
+
+            <button id="clear-chat" class="btn btn-primary">Delete</button> <!-- Delete button to clear the chat -->
+
+        </form>
+
+    </div>
+    
+    <script>
+        const form = document.getElementById('chat-form');
+        const input = document.getElementById('chat-input');
+        const messages = document.getElementById('chat-messages');
+        const clearButton = document.getElementById('clear-chat');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const userMessage = input.value.trim();
+            if (userMessage) {
+                appendMessage('You', userMessage, 'user-message');
+                input.value = '';
+
+                fetch('', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `query=${encodeURIComponent(userMessage)}`
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        appendMessage('Bot', data.response);
+                    });
+            }
+        });
+
+        clearButton.addEventListener('click', function () {
+            // Clear the chat messages
+            messages.innerHTML = '';
+        });
+
+        function appendMessage(sender, message, className = 'bot-message') {
+            const messageElement = document.createElement('div');
+            messageElement.className = `message ${className}`;
+            messageElement.textContent = `${sender}: ${message}`;
+            messages.appendChild(messageElement);
+            messages.scrollTop = messages.scrollHeight;
+        }
+    </script>
+{% endblock %}
